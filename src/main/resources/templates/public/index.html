@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="EComerce Cloud: plataforma SaaS multitenant para abarrotes, restaurantes, gimnasios, cafeterías y nuevos negocios.">
+
+    <title>
+        EComerce Cloud | Software para hacer crecer tu negocio
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/landing-premium.css}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a class="brand"
+       th:href="@{/}">
+
+        <span class="brand-logo">EC</span>
+
+        <span class="brand-copy">
+            <strong>EComerce Cloud</strong>
+            <small>Una plataforma, múltiples negocios</small>
+        </span>
+
+    </a>
+
+    <nav class="navbar-links">
+        <a href="#soluciones">Soluciones</a>
+        <a href="#plataforma">Plataforma</a>
+        <a href="#beneficios">Beneficios</a>
+        <a href="#planes">Planes</a>
+    </nav>
+
+    <div class="navbar-actions">
+
+        <a class="navbar-login"
+           th:href="@{/super-admin}">
+            Iniciar sesión
+        </a>
+
+        <a class="button button-small"
+           th:href="@{/super-admin/empresas/nueva}">
+            Solicitar demostración
+        </a>
+
+    </div>
+
+</header>
+
+<main>
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="pill">
+                SOFTWARE SAAS MULTITENANT PARA NEGOCIOS REALES
+            </span>
+
+            <h1>
+                Administra mejor.
+                <span>Vende más.</span>
+                Crece con control.
+            </h1>
+
+            <p>
+                EComerce Cloud reúne ventas, inventario, clientes,
+                membresías, comandas, caja y reportes en una plataforma
+                moderna que se adapta al giro de cada negocio.
+            </p>
+
+            <div class="hero-actions">
+
+                <a class="button"
+                   href="#soluciones">
+                    Explorar soluciones
+                </a>
+
+                <a class="button button-secondary"
+                   th:href="@{/super-admin}">
+                    Ver panel administrativo
+                </a>
+
+            </div>
+
+            <div class="trust-list">
+
+                <span>✓ Información aislada por empresa</span>
+                <span>✓ Acceso desde celular y computadora</span>
+                <span>✓ Suscripción mensual escalable</span>
+
+            </div>
+
+        </div>
+
+        <div class="hero-product">
+
+            <div class="hero-glow"></div>
+
+            <article class="product-preview">
+
+                <header class="preview-header">
+
+                    <div class="preview-brand">
+                        <span>EC</span>
+
+                        <div>
+                            <strong>Centro de operaciones</strong>
+                            <small>EComerce Cloud</small>
+                        </div>
+                    </div>
+
+                    <span class="online-badge">
+                        ● Plataforma operativa
+                    </span>
+
+                </header>
+
+                <section class="preview-kpis">
+
+                    <article>
+                        <span>Empresas</span>
+                        <strong>37</strong>
+                        <small>+8 este mes</small>
+                    </article>
+
+                    <article>
+                        <span>Verticales</span>
+                        <strong>5</strong>
+                        <small>Modulares</small>
+                    </article>
+
+                    <article>
+                        <span>Disponibilidad</span>
+                        <strong>24/7</strong>
+                        <small>En la nube</small>
+                    </article>
+
+                </section>
+
+                <section class="preview-chart">
+
+                    <div class="chart-title">
+                        <span>Crecimiento comercial</span>
+                        <strong>+32%</strong>
+                    </div>
+
+                    <div class="bars">
+                        <i style="height: 35%"></i>
+                        <i style="height: 48%"></i>
+                        <i style="height: 55%"></i>
+                        <i style="height: 68%"></i>
+                        <i style="height: 77%"></i>
+                        <i style="height: 92%"></i>
+                    </div>
+
+                </section>
+
+                <section class="preview-products">
+
+                    <span>AbarroteCloud</span>
+                    <span>RestauranteCloud</span>
+                    <span>GymCloud</span>
+                    <span>CoffeeShopCloud</span>
+
+                </section>
+
+            </article>
+
+        </div>
+
+    </section>
+
+    <section class="statistics">
+
+        <article>
+            <strong>1</strong>
+            <span>plataforma central</span>
+        </article>
+
+        <article>
+            <strong>5+</strong>
+            <span>rubros configurables</span>
+        </article>
+
+        <article>
+            <strong>100%</strong>
+            <span>separación por tenant</span>
+        </article>
+
+        <article>
+            <strong>24/7</strong>
+            <span>operación en la nube</span>
+        </article>
+
+    </section>
+
+    <section id="soluciones"
+             class="section">
+
+        <header class="section-header">
+
+            <span class="section-tag">
+                SOLUCIONES ESPECIALIZADAS
+            </span>
+
+            <h2>
+                Un producto diseñado para cada tipo de negocio
+            </h2>
+
+            <p>
+                Cada vertical comparte la fortaleza del núcleo SaaS,
+                pero incluye módulos, procesos y lenguaje adecuados
+                para su operación.
+            </p>
+
+        </header>
+
+        <div class="solutions-grid">
+
+            <article class="solution-card"
+                     th:each="vertical : ${verticales}">
+
+                <header class="solution-card-header">
+
+                    <span class="solution-icon"
+                          th:text="${
+                              vertical.code.name() == 'ABARROTES'
+                              ? '🛒'
+                              : vertical.code.name() == 'RESTAURANTES'
+                              ? '🍽️'
+                              : vertical.code.name() == 'GIMNASIOS'
+                              ? '🏋️'
+                              : vertical.code.name() == 'COFFEE_SHOP'
+                              ? '☕'
+                              : '🧩'
+                          }">
+                        🧩
+                    </span>
+
+                    <span class="module-total"
+                          th:text="${
+                              #lists.size(vertical.features)
+                              + ' módulos'
+                          }">
+                        6 módulos
+                    </span>
+
+                </header>
+
+                <span class="solution-code"
+                      th:text="${vertical.code}">
+                    VERTICAL
+                </span>
+
+                <h3 th:text="${vertical.productName}">
+                    ProductCloud
+                </h3>
+
+                <p th:text="${vertical.description}">
+                    Descripción de la solución.
+                </p>
+
+                <ul class="module-list">
+
+                    <li th:each="modulo, estado :
+                            ${vertical.features}"
+                        th:if="${estado.index < 4}">
+
+                        <span th:text="${modulo.icon}">
+                            ✓
+                        </span>
+
+                        <span th:text="${modulo.name}">
+                            Módulo
+                        </span>
+
+                    </li>
+
+                </ul>
+
+                <a class="solution-link"
+                   th:href="@{
+                       /soluciones/{codigo}(
+                           codigo=${vertical.code}
+                       )
+                   }">
+                    Conocer solución →
+                </a>
+
+            </article>
+
+        </div>
+
+    </section>
+
+    <section id="plataforma"
+             class="platform">
+
+        <div class="platform-copy">
+
+            <span class="section-tag section-tag-dark">
+                ARQUITECTURA MULTITENANT
+            </span>
+
+            <h2>
+                Una infraestructura compartida.
+                Negocios completamente independientes.
+            </h2>
+
+            <p>
+                Una sola instalación puede administrar decenas de tiendas,
+                restaurantes, gimnasios y cafeterías. Cada cliente mantiene
+                separados sus usuarios, productos, ventas, inventario,
+                clientes y reportes.
+            </p>
+
+            <div class="platform-features">
+
+                <article>
+                    <strong>Core SaaS compartido</strong>
+                    <span>
+                        Seguridad, planes, pagos, usuarios, vigencias
+                        y administración general.
+                    </span>
+                </article>
+
+                <article>
+                    <strong>Aislamiento por tenant</strong>
+                    <span>
+                        Cada registro operativo pertenece a una sola empresa.
+                    </span>
+                </article>
+
+                <article>
+                    <strong>Crecimiento modular</strong>
+                    <span>
+                        Nuevos giros se incorporan sin duplicar toda
+                        la plataforma.
+                    </span>
+                </article>
+
+            </div>
+
+        </div>
+
+        <div class="architecture-card">
+
+            <article class="core-card">
+
+                <span class="core-logo">EC</span>
+
+                <div>
+                    <strong>EComerce Cloud Core</strong>
+                    <small>
+                        Seguridad · Tenants · Planes · Pagos
+                    </small>
+                </div>
+
+            </article>
+
+            <div class="connector"></div>
+
+            <div class="architecture-modules">
+
+                <span>🛒 Abarrotes</span>
+                <span>🍽️ Restaurantes</span>
+                <span>🏋️ Gimnasios</span>
+                <span>☕ Cafeterías</span>
+                <span>＋ Nuevos rubros</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="beneficios"
+             class="section">
+
+        <header class="section-header">
+
+            <span class="section-tag">
+                EXPERIENCIA ACUMULADA
+            </span>
+
+            <h2>
+                La evolución de nuestros proyectos anteriores
+            </h2>
+
+            <p>
+                EComerce Cloud integra y reorganiza funcionalidades
+                desarrolladas en Commerce Cloud I, Commerce Cloud II,
+                Abarrote Cloud, Gym Cloud y Restaurant Cloud.
+            </p>
+
+        </header>
+
+        <div class="benefits-grid">
+
+            <article>
+                <span>🛍️</span>
+                <h3>Punto de venta</h3>
+                <p>
+                    Cobro, carrito, tickets, caja, métodos de pago
+                    y control de ventas.
+                </p>
+            </article>
+
+            <article>
+                <span>📦</span>
+                <h3>Inventario</h3>
+                <p>
+                    Productos, existencias, mínimos, categorías,
+                    movimientos y proveedores.
+                </p>
+            </article>
+
+            <article>
+                <span>🍽️</span>
+                <h3>Operación restaurante</h3>
+                <p>
+                    Mesas, comandas, cocina, meseros, menú
+                    y cierre de cuenta.
+                </p>
+            </article>
+
+            <article>
+                <span>🏋️</span>
+                <h3>Administración de gimnasios</h3>
+                <p>
+                    Socios, membresías, pagos, vencimientos,
+                    asistencias y entrenadores.
+                </p>
+            </article>
+
+            <article>
+                <span>📊</span>
+                <h3>Reportes y decisiones</h3>
+                <p>
+                    Indicadores de ventas, operaciones, clientes
+                    y desempeño comercial.
+                </p>
+            </article>
+
+            <article>
+                <span>🔐</span>
+                <h3>Seguridad SaaS</h3>
+                <p>
+                    Usuarios, roles, activación, vigencia
+                    y separación de información.
+                </p>
+            </article>
+
+        </div>
+
+    </section>
+
+    <section id="planes"
+             class="section">
+
+        <header class="section-header">
+
+            <span class="section-tag">
+                SUSCRIPCIÓN MENSUAL
+            </span>
+
+            <h2>
+                Planes para empezar y crecer
+            </h2>
+
+            <p>
+                Los precios serán administrados posteriormente desde
+                el Super Admin. Esta presentación establece el modelo
+                comercial inicial.
+            </p>
+
+        </header>
+
+        <div class="pricing-grid">
+
+            <article class="pricing-card">
+
+                <span class="pricing-name">BASIC</span>
+
+                <h3>Negocio inicial</h3>
+
+                <strong class="price">
+                    $299
+                    <small>MXN / mes</small>
+                </strong>
+
+                <ul>
+                    <li>1 sucursal</li>
+                    <li>Hasta 3 usuarios</li>
+                    <li>Módulos esenciales</li>
+                    <li>Soporte estándar</li>
+                </ul>
+
+                <a th:href="@{/super-admin/empresas/nueva}">
+                    Registrar prospecto
+                </a>
+
+            </article>
+
+            <article class="pricing-card pricing-featured">
+
+                <span class="recommended">
+                    MÁS ELEGIDO
+                </span>
+
+                <h3>Plan profesional</h3>
+
+                <strong class="price">
+                    $599
+                    <small>MXN / mes</small>
+                </strong>
+
+                <ul>
+                    <li>Hasta 3 sucursales</li>
+                    <li>Hasta 10 usuarios</li>
+                    <li>Reportes avanzados</li>
+                    <li>Soporte prioritario</li>
+                </ul>
+
+                <a th:href="@{/super-admin/empresas/nueva}">
+                    Solicitar demostración
+                </a>
+
+            </article>
+
+            <article class="pricing-card">
+
+                <span class="pricing-name">
+                    ENTERPRISE
+                </span>
+
+                <h3>Operación avanzada</h3>
+
+                <strong class="price">
+                    A medida
+                </strong>
+
+                <ul>
+                    <li>Sucursales configurables</li>
+                    <li>Usuarios configurables</li>
+                    <li>Integraciones especiales</li>
+                    <li>Acompañamiento dedicado</li>
+                </ul>
+
+                <a th:href="@{/super-admin/empresas/nueva}">
+                    Hablar con ventas
+                </a>
+
+            </article>
+
+        </div>
+
+    </section>
+
+    <section class="final-cta">
+
+        <div>
+            <span class="section-tag section-tag-dark">
+                CONSTRUYAMOS TU OPERACIÓN DIGITAL
+            </span>
+
+            <h2>
+                Convierte EComerce Cloud en una solución
+                que tus clientes quieran contratar.
+            </h2>
+
+            <p>
+                Registra un prospecto y comienza el proceso comercial
+                desde el panel SaaS.
+            </p>
+        </div>
+
+        <a class="button button-light"
+           th:href="@{/super-admin/empresas/nueva}">
+            Registrar nuevo cliente
+        </a>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+
+    <a class="brand"
+       th:href="@{/}">
+
+        <span class="brand-logo">EC</span>
+
+        <span class="brand-copy">
+            <strong>EComerce Cloud</strong>
+            <small>Software comercial para negocios reales</small>
+        </span>
+
+    </a>
+
+    <p>
+        © 2026 EComerce Cloud · Plataforma SaaS multitenant.
+    </p>
+
+</footer>
+
+</body>
+</html>

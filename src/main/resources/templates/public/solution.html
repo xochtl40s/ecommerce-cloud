@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${solution.productName + ' | EComerce Cloud'}">
+        Solución
+    </title>
+    <link rel="stylesheet" th:href="@{/css/public-site.css}">
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" th:href="@{/}">
+        <span class="brand-mark">EC</span>
+        <span>
+            <strong>EComerce Cloud</strong>
+            <small>Una plataforma, múltiples negocios</small>
+        </span>
+    </a>
+    <a class="button button-small"
+       th:href="@{/super-admin/empresas/nueva}">
+        Solicitar demostración
+    </a>
+</header>
+
+<main class="solution-main">
+    <a class="back-link" th:href="@{/#soluciones}">
+        ← Regresar a soluciones
+    </a>
+
+    <section class="solution-hero">
+        <span class="badge badge-dark"
+              th:text="${solution.code}">VERTICAL</span>
+
+        <h1 th:text="${solution.productName}">
+            ProductCloud
+        </h1>
+
+        <h2 th:text="${solution.commercialName}">
+            Solución comercial
+        </h2>
+
+        <p th:text="${solution.description}">
+            Descripción
+        </p>
+
+        <a class="button button-light"
+           th:href="@{/super-admin/empresas/nueva}">
+            Solicitar demostración
+        </a>
+    </section>
+
+    <section class="section solution-features">
+        <div class="section-heading">
+            <span class="badge">MÓDULOS INCLUIDOS</span>
+            <h2>Funciones diseñadas para este negocio</h2>
+        </div>
+
+        <div class="features-grid">
+            <article th:each="feature : ${solution.features}">
+                <span th:text="${feature.icon}">🧩</span>
+                <small th:text="${feature.code}">MODULE</small>
+                <h3 th:text="${feature.name}">Módulo</h3>
+                <p th:text="${feature.description}">Descripción</p>
+            </article>
+        </div>
+    </section>
+</main>
+</body>
+</html>
