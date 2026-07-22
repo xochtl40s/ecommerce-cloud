@@ -22,4 +22,24 @@ public interface TenantRepository extends JpaRepository<Tenant, Long> {
     );
 
     List<Tenant> findTop5ByOrderByCreadoEnDesc();
+
+    List<Tenant> findAllByOrderByCreadoEnDesc();
+
+    List<Tenant> findByNombreComercialContainingIgnoreCaseOrCodigoContainingIgnoreCaseOrCorreoContainingIgnoreCaseOrPropietarioContainingIgnoreCaseOrderByCreadoEnDesc(
+            String nombreComercial,
+            String codigo,
+            String correo,
+            String propietario
+    );
+
+    List<Tenant> findByEstadoAndNombreComercialContainingIgnoreCaseOrEstadoAndCodigoContainingIgnoreCaseOrEstadoAndCorreoContainingIgnoreCaseOrEstadoAndPropietarioContainingIgnoreCaseOrderByCreadoEnDesc(
+            EstadoTenant estadoNombre,
+            String nombreComercial,
+            EstadoTenant estadoCodigo,
+            String codigo,
+            EstadoTenant estadoCorreo,
+            String correo,
+            EstadoTenant estadoPropietario,
+            String propietario
+    );
 }
