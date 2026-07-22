@@ -33,6 +33,15 @@ public class TenantController {
                 .body(response);
     }
 
+    @PostMapping("/{id}/activar")
+    public ResponseEntity<TenantResponse> activar(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(
+                tenantService.activar(id)
+        );
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<TenantResponse> obtenerPorId(
             @PathVariable Long id

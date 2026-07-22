@@ -9,6 +9,7 @@ import com.ecommercecloud.tenant.repository.TenantRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,17 +55,40 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
+    public TenantResponse activar(Long id) {
+
+        Tenant tenant = buscarTenant(id);
+
+        if (Boolean.TRUE.equals(tenant.getActivo())
+                || tenant.getEstado() == EstadoTenant.ACTIVO) {
+
+            throw new BusinessException(
+                    "La empresa ya se encuentra activa"
+            );
+        }
+
+        if (tenant.getEstado() == EstadoTenant.CANCELADO) {
+            throw new BusinessException(
+                    "Una empresa cancelada no puede activarse directamente"
+            );
+        }
+
+        LocalDate fechaActivacion = LocalDate.now();
+
+        tenant.setEstado(EstadoTenant.ACTIVO);
+        tenant.setActivo(true);
+        tenant.setFechaActivacion(fechaActivacion);
+        tenant.setFechaVencimiento(fechaActivacion.plusMonths(1));
+
+        Tenant actualizado = tenantRepository.save(tenant);
+
+        return mapear(actualizado);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public TenantResponse obtenerPorId(Long id) {
-
-        Tenant tenant = tenantRepository.findById(id)
-                .orElseThrow(() ->
-                        new BusinessException(
-                                "No existe el tenant con id " + id
-                        )
-                );
-
-        return mapear(tenant);
+        return mapear(buscarTenant(id));
     }
 
     @Override
@@ -84,6 +108,15 @@ public class TenantServiceImpl implements TenantService {
                 .stream()
                 .map(this::mapear)
                 .toList();
+    }
+
+    private Tenant buscarTenant(Long id) {
+        return tenantRepository.findById(id)
+                .orElseThrow(() ->
+                        new BusinessException(
+                                "No existe el tenant con id " + id
+                        )
+                );
     }
 
     private String generarCodigo(Long verticalId) {

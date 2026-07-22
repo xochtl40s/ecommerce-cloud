@@ -10,6 +10,8 @@ public interface TenantService {
 
     TenantResponse crearProspecto(TenantCreateRequest request);
 
+    TenantResponse activar(Long id);
+
     TenantResponse obtenerPorId(Long id);
 
     List<TenantResponse> listarTodos();
