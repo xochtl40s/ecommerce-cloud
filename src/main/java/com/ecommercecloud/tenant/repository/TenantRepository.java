@@ -15,6 +15,11 @@ public interface TenantRepository extends JpaRepository<Tenant, Long> {
 
     boolean existsByCorreo(String correo);
 
-    List<Tenant> findByEstadoOrderByCreadoEnDesc(EstadoTenant estado);
+    long countByEstado(EstadoTenant estado);
 
+    List<Tenant> findByEstadoOrderByCreadoEnDesc(
+            EstadoTenant estado
+    );
+
+    List<Tenant> findTop5ByOrderByCreadoEnDesc();
 }

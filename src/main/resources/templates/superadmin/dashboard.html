@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{
+    superadmin/layout :: head('Dashboard')
+}">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <aside th:replace="~{
+        superadmin/layout :: sidebar(${paginaActual})
+    }">
+    </aside>
+
+    <main class="main-content">
+
+        <header th:replace="~{
+            superadmin/layout ::
+            topbar(
+                'Dashboard SaaS',
+                'Visión general de EComerce Cloud'
+            )
+        }">
+        </header>
+
+        <section class="page-content">
+
+            <div class="welcome-card">
+
+                <div>
+                    <span class="eyebrow">
+                        CENTRO DE OPERACIONES
+                    </span>
+
+                    <h3>
+                        Administra el crecimiento
+                        de tu plataforma
+                    </h3>
+
+                    <p>
+                        Revisa prospectos, empresas activas,
+                        planes contratados y oportunidades
+                        comerciales desde un solo lugar.
+                    </p>
+                </div>
+
+                <a class="primary-button"
+                   href="#">
+                    + Registrar empresa
+                </a>
+
+            </div>
+
+            <section class="metrics-grid">
+
+                <article class="metric-card">
+
+                    <div class="metric-header">
+                        <span class="metric-label">
+                            Total de empresas
+                        </span>
+
+                        <span class="metric-icon blue">
+                            ▣
+                        </span>
+                    </div>
+
+                    <strong class="metric-value"
+                            th:text="${dashboard.totalEmpresas}">
+                        0
+                    </strong>
+
+                    <span class="metric-help">
+                        Empresas registradas en la plataforma
+                    </span>
+
+                </article>
+
+                <article class="metric-card">
+
+                    <div class="metric-header">
+                        <span class="metric-label">
+                            Prospectos
+                        </span>
+
+                        <span class="metric-icon orange">
+                            ◉
+                        </span>
+                    </div>
+
+                    <strong class="metric-value"
+                            th:text="${dashboard.totalProspectos}">
+                        0
+                    </strong>
+
+                    <span class="metric-help">
+                        Oportunidades pendientes de conversión
+                    </span>
+
+                </article>
+
+                <article class="metric-card">
+
+                    <div class="metric-header">
+                        <span class="metric-label">
+                            Empresas activas
+                        </span>
+
+                        <span class="metric-icon green">
+                            ✓
+                        </span>
+                    </div>
+
+                    <strong class="metric-value"
+                            th:text="${dashboard.totalActivas}">
+                        0
+                    </strong>
+
+                    <span class="metric-help">
+                        Clientes con servicio vigente
+                    </span>
+
+                </article>
+
+                <article class="metric-card">
+
+                    <div class="metric-header">
+                        <span class="metric-label">
+                            Suspendidas
+                        </span>
+
+                        <span class="metric-icon red">
+                            !
+                        </span>
+                    </div>
+
+                    <strong class="metric-value"
+                            th:text="${dashboard.totalSuspendidas}">
+                        0
+                    </strong>
+
+                    <span class="metric-help">
+                        Cuentas que requieren seguimiento
+                    </span>
+
+                </article>
+
+            </section>
+
+            <section class="content-grid">
+
+                <article class="panel recent-companies">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="eyebrow">
+                                ACTIVIDAD RECIENTE
+                            </span>
+
+                            <h3>
+                                Empresas registradas
+                            </h3>
+                        </div>
+
+                        <a href="#"
+                           class="text-link">
+                            Ver todas →
+                        </a>
+
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Propietario</th>
+                                <th>Estado</th>
+                                <th>Registro</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <tr th:each="empresa :
+                                ${dashboard.empresasRecientes}">
+
+                                <td>
+                                    <div class="company-cell">
+
+                                        <div class="company-avatar"
+                                             th:text="${
+                                                 #strings.substring(
+                                                     empresa.nombreComercial,
+                                                     0,
+                                                     1
+                                                 )
+                                             }">
+                                            E
+                                        </div>
+
+                                        <div>
+                                            <strong th:text="${
+                                                empresa.nombreComercial
+                                            }">
+                                                Empresa
+                                            </strong>
+
+                                            <span th:text="${
+                                                empresa.codigo
+                                            }">
+                                                COD-001
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <strong th:text="${
+                                        empresa.propietario
+                                    }">
+                                        Propietario
+                                    </strong>
+
+                                    <small th:text="${
+                                        empresa.correo
+                                    }">
+                                        correo@empresa.mx
+                                    </small>
+                                </td>
+
+                                <td>
+                                    <span class="status-badge"
+                                          th:classappend="${
+                                              ' status-' +
+                                              #strings.toLowerCase(
+                                                  empresa.estado.name()
+                                              )
+                                          }"
+                                          th:text="${
+                                              empresa.estado
+                                          }">
+                                        PROSPECTO
+                                    </span>
+                                </td>
+
+                                <td th:text="${
+                                    #temporals.format(
+                                        empresa.creadoEn,
+                                        'dd/MM/yyyy'
+                                    )
+                                }">
+                                    21/07/2026
+                                </td>
+
+                                <td class="actions-cell">
+                                    <a href="#"
+                                       class="action-button">
+                                        Ver
+                                    </a>
+                                </td>
+
+                            </tr>
+
+                            <tr th:if="${
+                                #lists.isEmpty(
+                                    dashboard.empresasRecientes
+                                )
+                            }">
+
+                                <td colspan="5"
+                                    class="empty-state">
+
+                                    <strong>
+                                        Todavía no hay empresas
+                                    </strong>
+
+                                    <span>
+                                        Los nuevos prospectos
+                                        aparecerán aquí.
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </article>
+
+                <aside class="panel commercial-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="eyebrow">
+                                ENFOQUE COMERCIAL
+                            </span>
+
+                            <h3>
+                                Próximas acciones
+                            </h3>
+                        </div>
+
+                    </div>
+
+                    <div class="commercial-list">
+
+                        <div class="commercial-item">
+
+                            <div class="commercial-number">
+                                1
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Contactar prospectos
+                                </strong>
+
+                                <span>
+                                    Convierte solicitudes
+                                    recientes en clientes.
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="commercial-item">
+
+                            <div class="commercial-number">
+                                2
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Confirmar pagos
+                                </strong>
+
+                                <span>
+                                    Valida el pago antes
+                                    de activar una empresa.
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="commercial-item">
+
+                            <div class="commercial-number">
+                                3
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Entregar credenciales
+                                </strong>
+
+                                <span>
+                                    Envía acceso temporal
+                                    al administrador.
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="commercial-footer">
+                        <span>Meta inicial</span>
+                        <strong>10 clientes activos</strong>
+                    </div>
+
+                </aside>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

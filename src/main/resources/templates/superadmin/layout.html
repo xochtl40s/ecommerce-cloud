@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(titulo)">
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${titulo + ' | EComerce Cloud'}">
+        EComerce Cloud
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/superadmin.css}">
+</head>
+
+<body>
+
+<aside class="sidebar"
+       th:fragment="sidebar(paginaActual)">
+
+    <div class="brand">
+        <div class="brand-icon">EC</div>
+
+        <div>
+            <h1>EComerce</h1>
+            <span>Cloud SaaS</span>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+
+        <a th:href="@{/super-admin}"
+           class="nav-item"
+           th:classappend="${paginaActual == 'dashboard'}
+                           ? ' active' : ''">
+
+            <span class="nav-icon">⌂</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="#"
+           class="nav-item">
+
+            <span class="nav-icon">▣</span>
+            <span>Empresas</span>
+        </a>
+
+        <a href="#"
+           class="nav-item">
+
+            <span class="nav-icon">◆</span>
+            <span>Planes</span>
+        </a>
+
+        <a href="#"
+           class="nav-item">
+
+            <span class="nav-icon">$</span>
+            <span>Pagos</span>
+        </a>
+
+        <a href="#"
+           class="nav-item">
+
+            <span class="nav-icon">♙</span>
+            <span>Usuarios</span>
+        </a>
+
+        <a href="#"
+           class="nav-item">
+
+            <span class="nav-icon">⚙</span>
+            <span>Configuración</span>
+        </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="admin-avatar">SA</div>
+
+        <div>
+            <strong>Super Admin</strong>
+            <span>Administrador SaaS</span>
+        </div>
+    </div>
+
+</aside>
+
+<header class="topbar"
+        th:fragment="topbar(titulo, subtitulo)">
+
+    <div>
+        <h2 th:text="${titulo}">Dashboard</h2>
+
+        <p th:text="${subtitulo}">
+            Administración general
+        </p>
+    </div>
+
+    <div class="topbar-actions">
+
+        <button class="notification-button"
+                type="button"
+                title="Notificaciones">
+            🔔
+        </button>
+
+        <div class="status-chip">
+            <span class="status-dot"></span>
+            Plataforma operativa
+        </div>
+
+    </div>
+</header>
+
+</body>
+</html>
