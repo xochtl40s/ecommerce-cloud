@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Iniciar sesión | EComerce Cloud
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/auth-premium.css}">
+</head>
+
+<body>
+
+<main class="auth-layout">
+
+    <section class="auth-showcase">
+
+        <a class="auth-brand"
+           th:href="@{/}">
+
+            <span class="auth-brand-logo">EC</span>
+
+            <span>
+                <strong>EComerce Cloud</strong>
+                <small>
+                    Una plataforma, múltiples negocios
+                </small>
+            </span>
+
+        </a>
+
+        <div class="showcase-copy">
+
+            <span class="showcase-tag">
+                PLATAFORMA SAAS MULTITENANT
+            </span>
+
+            <h1>
+                Tu negocio.
+                <span>Tu información.</span>
+                Tu espacio de trabajo.
+            </h1>
+
+            <p>
+                Accede a las funciones específicas de tu empresa:
+                ventas, productos, inventario, mesas, comandas,
+                membresías, asistencias y reportes.
+            </p>
+
+            <div class="showcase-products">
+
+                <article>
+                    <span>🛒</span>
+                    <strong>AbarroteCloud</strong>
+                </article>
+
+                <article>
+                    <span>🍽️</span>
+                    <strong>RestauranteCloud</strong>
+                </article>
+
+                <article>
+                    <span>🏋️</span>
+                    <strong>GymCloud</strong>
+                </article>
+
+                <article>
+                    <span>☕</span>
+                    <strong>CoffeeShopCloud</strong>
+                </article>
+
+            </div>
+
+        </div>
+
+        <footer class="showcase-footer">
+            <span>🔐 Conexión protegida</span>
+            <span>☁ Operación en la nube</span>
+            <span>🏢 Datos separados por empresa</span>
+        </footer>
+
+    </section>
+
+    <section class="auth-panel">
+
+        <div class="auth-card">
+
+            <header class="auth-card-header">
+
+                <span class="mobile-logo">EC</span>
+
+                <span class="auth-eyebrow">
+                    BIENVENIDO
+                </span>
+
+                <h2>Inicia sesión en tu cuenta</h2>
+
+                <p>
+                    Utiliza las credenciales entregadas
+                    al activar tu empresa.
+                </p>
+
+            </header>
+
+            <div th:if="${param.error}"
+                 class="auth-alert auth-alert-error">
+
+                <strong>No pudimos iniciar sesión</strong>
+
+                <span>
+                    Verifica tu usuario, contraseña
+                    y estado de suscripción.
+                </span>
+
+            </div>
+
+            <div th:if="${param.logout}"
+                 class="auth-alert auth-alert-success">
+
+                <strong>Sesión cerrada</strong>
+
+                <span>
+                    Cerraste sesión correctamente.
+                </span>
+
+            </div>
+
+            <div th:if="${param.passwordChanged}"
+                 class="auth-alert auth-alert-success">
+
+                <strong>Contraseña actualizada</strong>
+
+                <span>
+                    Inicia sesión nuevamente con
+                    tu nueva contraseña.
+                </span>
+
+            </div>
+
+            <form method="post"
+                  th:action="@{/login}"
+                  class="auth-form">
+
+                <label for="username">
+                    Usuario
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span>👤</span>
+
+                    <input id="username"
+                           name="username"
+                           type="text"
+                           autocomplete="username"
+                           placeholder="admin.res000001"
+                           autofocus
+                           required>
+
+                </div>
+
+                <label for="password">
+                    Contraseña
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span>🔒</span>
+
+                    <input id="password"
+                           name="password"
+                           type="password"
+                           autocomplete="current-password"
+                           placeholder="Escribe tu contraseña"
+                           required>
+
+                    <button type="button"
+                            class="password-toggle"
+                            aria-label="Mostrar contraseña"
+                            onclick="togglePassword()">
+                        Ver
+                    </button>
+
+                </div>
+
+                <div class="form-options">
+
+                    <label class="remember-label">
+
+                        <input type="checkbox"
+                               name="remember-me">
+
+                        <span>Mantener sesión</span>
+
+                    </label>
+
+                    <span class="support-link">
+                        ¿Necesitas ayuda?
+                    </span>
+
+                </div>
+
+                <button type="submit"
+                        class="login-button">
+                    Iniciar sesión
+                </button>
+
+            </form>
+
+            <div class="auth-divider">
+                <span>Acceso empresarial seguro</span>
+            </div>
+
+            <div class="activation-note">
+
+                <span>ℹ️</span>
+
+                <p>
+                    Al ingresar por primera vez, el sistema
+                    solicitará cambiar la contraseña temporal.
+                </p>
+
+            </div>
+
+            <a class="back-home"
+               th:href="@{/}">
+                ← Regresar al sitio principal
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+    function togglePassword() {
+        const input =
+            document.getElementById("password");
+
+        const button =
+            document.querySelector(
+                ".password-toggle"
+            );
+
+        const showing =
+            input.type === "text";
+
+        input.type =
+            showing ? "password" : "text";
+
+        button.textContent =
+            showing ? "Ver" : "Ocultar";
+    }
+</script>
+
+</body>
+</html>
