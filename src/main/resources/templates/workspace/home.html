@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${
+        workspace.vertical.productName
+        + ' | '
+        + workspace.businessName
+    }">
+        EComerce Cloud
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/workspace.css}">
+
+    <style th:inline="css">
+        :root {
+            --tenant-primary: [[${workspace.primaryColor}]];
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="workspace-header">
+
+    <div class="brand-block">
+        <div class="brand-mark">EC</div>
+
+        <div>
+            <strong th:text="${
+                workspace.vertical.productName
+            }">
+                VerticalCloud
+            </strong>
+
+            <span>EComerce Cloud Platform</span>
+        </div>
+    </div>
+
+    <div class="tenant-block">
+        <span>Empresa activa</span>
+
+        <strong th:text="${workspace.businessName}">
+            Empresa
+        </strong>
+    </div>
+
+</header>
+
+<main class="workspace-main">
+
+    <section class="workspace-hero">
+
+        <div>
+            <span class="eyebrow"
+                  th:text="${
+                      workspace.tenantCode
+                      + ' · '
+                      + workspace.planName
+                  }">
+                TENANT · PLAN
+            </span>
+
+            <h1 th:text="${
+                workspace.vertical.commercialName
+            }">
+                Solución comercial
+            </h1>
+
+            <p th:text="${
+                workspace.vertical.description
+            }">
+                Descripción del vertical
+            </p>
+        </div>
+
+        <div class="subscription-card">
+            <span>Vigencia</span>
+
+            <strong th:text="${
+                workspace.expirationDate != null
+                ? #temporals.format(
+                    workspace.expirationDate,
+                    'dd/MM/yyyy'
+                  )
+                : 'Sin vencimiento'
+            }">
+                31/12/2026
+            </strong>
+
+            <small th:text="${
+                workspace.currency
+                + ' · '
+                + workspace.timezone
+            }">
+                MXN
+            </small>
+        </div>
+
+    </section>
+
+    <section class="modules-section">
+
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">
+                    MÓDULOS DEL NEGOCIO
+                </span>
+
+                <h2>
+                    Todo lo necesario para operar
+                </h2>
+            </div>
+
+            <span class="module-count"
+                  th:text="${
+                      #lists.size(
+                          workspace.vertical.features
+                      )
+                      + ' módulos'
+                  }">
+                6 módulos
+            </span>
+        </div>
+
+        <div class="modules-grid">
+
+            <article class="module-card"
+                     th:each="feature :
+                        ${workspace.vertical.features}">
+
+                <div class="module-icon"
+                     th:text="${feature.icon}">
+                    📦
+                </div>
+
+                <div>
+                    <span th:text="${feature.code}">
+                        MODULE
+                    </span>
+
+                    <h3 th:text="${feature.name}">
+                        Módulo
+                    </h3>
+
+                    <p th:text="${feature.description}">
+                        Descripción
+                    </p>
+                </div>
+
+                <a href="#"
+                   th:attr="data-module=${feature.route}">
+                    Abrir módulo →
+                </a>
+
+            </article>
+
+        </div>
+
+    </section>
+
+    <section class="platform-note">
+
+        <div>
+            <span class="eyebrow">
+                AISLAMIENTO MULTITENANT
+            </span>
+
+            <h2>
+                Tu operación permanece separada
+            </h2>
+
+            <p>
+                Este espacio trabaja con el identificador exclusivo
+                de tu empresa. Productos, ventas, clientes, usuarios
+                y reportes deberán almacenarse siempre con tenant_id.
+            </p>
+        </div>
+
+        <div class="tenant-id-card">
+            <span>Tenant ID</span>
+
+            <strong th:text="${workspace.tenantId}">
+                1
+            </strong>
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

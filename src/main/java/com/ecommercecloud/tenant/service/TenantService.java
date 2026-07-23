@@ -1,5 +1,6 @@
 package com.ecommercecloud.tenant.service;
 
+import com.ecommercecloud.tenant.dto.TenantActivationResponse;
 import com.ecommercecloud.tenant.dto.TenantCreateRequest;
 import com.ecommercecloud.tenant.dto.TenantResponse;
 import com.ecommercecloud.tenant.entity.EstadoTenant;
@@ -10,7 +11,7 @@ public interface TenantService {
 
     TenantResponse crearProspecto(TenantCreateRequest request);
 
-    TenantResponse activar(Long id);
+    TenantActivationResponse activar(Long id);
 
     TenantResponse obtenerPorId(Long id);
 

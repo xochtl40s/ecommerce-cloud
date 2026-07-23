@@ -47,9 +47,9 @@
                         comerciales desde un solo lugar.
                     </p>
                 </div>
-
+                 
                 <a class="primary-button"
-                   href="#">
+                    th:href="@{/super-admin/empresas/nueva}"> 
                     + Registrar empresa
                 </a>
 
@@ -167,9 +167,9 @@
                             </h3>
                         </div>
 
-                        <a href="#"
+                        <a th:href="@{/super-admin/empresas}"
                            class="text-link">
-                            Ver todas →
+                           Ver todas →
                         </a>
 
                     </div>
@@ -263,10 +263,13 @@
                                 </td>
 
                                 <td class="actions-cell">
-                                    <a href="#"
-                                       class="action-button">
-                                        Ver
-                                    </a>
+
+                                <a th:href="@{
+                                   /super-admin/empresas/{id}(id=${empresa.id})
+                                   }"
+                                   class="action-button">
+                                   Ver
+                                </a>
                                 </td>
 
                             </tr>

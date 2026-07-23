@@ -36,42 +36,38 @@
            class="nav-item"
            th:classappend="${paginaActual == 'dashboard'}
                            ? ' active' : ''">
-
             <span class="nav-icon">⌂</span>
             <span>Dashboard</span>
         </a>
 
-        <a href="#"
-           class="nav-item">
-
+        <a th:href="@{/super-admin/empresas}"
+           class="nav-item"
+           th:classappend="${paginaActual == 'empresas'}
+                           ? ' active' : ''">
             <span class="nav-icon">▣</span>
             <span>Empresas</span>
         </a>
 
         <a href="#"
            class="nav-item">
-
             <span class="nav-icon">◆</span>
             <span>Planes</span>
         </a>
 
         <a href="#"
            class="nav-item">
-
             <span class="nav-icon">$</span>
             <span>Pagos</span>
         </a>
 
         <a href="#"
            class="nav-item">
-
             <span class="nav-icon">♙</span>
             <span>Usuarios</span>
         </a>
 
         <a href="#"
            class="nav-item">
-
             <span class="nav-icon">⚙</span>
             <span>Configuración</span>
         </a>
@@ -101,10 +97,8 @@
     </div>
 
     <div class="topbar-actions">
-
         <button class="notification-button"
-                type="button"
-                title="Notificaciones">
+                type="button">
             🔔
         </button>
 
@@ -112,8 +106,8 @@
             <span class="status-dot"></span>
             Plataforma operativa
         </div>
-
     </div>
+
 </header>
 
 </body>

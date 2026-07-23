@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{
+    superadmin/layout :: head('Detalle de empresa')
+}">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <aside th:replace="~{
+        superadmin/layout :: sidebar(${paginaActual})
+    }">
+    </aside>
+
+    <main class="main-content">
+
+        <header th:replace="~{
+            superadmin/layout ::
+            topbar(
+                'Detalle de empresa',
+                'Información comercial y estado del servicio'
+            )
+        }">
+        </header>
+
+        <section class="page-content">
+
+            <div th:if="${mensajeExito}"
+                 class="alert alert-success"
+                 th:text="${mensajeExito}">
+            </div>
+
+            <div th:if="${mensajeError}"
+                 class="alert alert-error"
+                 th:text="${mensajeError}">
+            </div>
+
+            <article th:if="${activacion}"
+                     class="credentials-card">
+
+                <div>
+                    <span class="eyebrow">
+                        CREDENCIALES TEMPORALES
+                    </span>
+
+                    <h3>
+                        Guarda estos datos antes de continuar
+                    </h3>
+
+                    <p>
+                        La contraseña se muestra únicamente
+                        durante el proceso de activación.
+                    </p>
+                </div>
+
+                <div class="credentials-grid">
+
+                    <div>
+                        <span>Usuario</span>
+                        <strong th:text="${
+                            activacion
+                                .credencialesAdministrador
+                                .username
+                        }">
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Contraseña temporal</span>
+                        <strong th:text="${
+                            activacion
+                                .credencialesAdministrador
+                                .passwordTemporal
+                        }">
+                        </strong>
+                    </div>
+
+                </div>
+
+            </article>
+
+            <div class="detail-header">
+
+                <div class="detail-company">
+
+                    <div class="detail-avatar"
+                         th:text="${
+                             #strings.substring(
+                                 empresa.nombreComercial,
+                                 0,
+                                 1
+                             )
+                         }">
+                        E
+                    </div>
+
+                    <div>
+                        <span th:text="${empresa.codigo}">
+                            COD-001
+                        </span>
+
+                        <h3 th:text="${
+                            empresa.nombreComercial
+                        }">
+                            Empresa
+                        </h3>
+
+                        <p th:text="${empresa.propietario}">
+                            Propietario
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="detail-actions">
+
+                    <span class="status-badge"
+                          th:classappend="${
+                              ' status-' +
+                              #strings.toLowerCase(
+                                  empresa.estado.name()
+                              )
+                          }"
+                          th:text="${empresa.estado}">
+                    </span>
+
+                    <form th:if="${!empresa.activo}"
+                          method="post"
+                          th:action="@{
+                              /super-admin/empresas/{id}/activar(
+                                  id=${empresa.id}
+                              )
+                          }">
+
+                        <button type="submit"
+                                class="success-button"
+                                onclick="
+                                    return confirm(
+                                        '¿Confirmas que el cliente pagó y deseas activar la empresa?'
+                                    );
+                                ">
+                            ✓ Activar empresa
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div class="detail-grid">
+
+                <article class="panel detail-panel">
+                    <span class="eyebrow">
+                        INFORMACIÓN COMERCIAL
+                    </span>
+
+                    <dl class="detail-list">
+
+                        <div>
+                            <dt>Propietario</dt>
+                            <dd th:text="${empresa.propietario}">
+                            </dd>
+                        </div>
+
+                        <div>
+                            <dt>Correo</dt>
+                            <dd th:text="${empresa.correo}">
+                            </dd>
+                        </div>
+
+                        <div>
+                            <dt>Teléfono</dt>
+                            <dd th:text="${
+                                empresa.telefono != null
+                                ? empresa.telefono
+                                : 'No registrado'
+                            }">
+                            </dd>
+                        </div>
+
+                        <div>
+                            <dt>Ciudad</dt>
+                            <dd th:text="${
+                                empresa.ciudad != null
+                                ? empresa.ciudad
+                                : 'No registrada'
+                            }">
+                            </dd>
+                        </div>
+
+                    </dl>
+                </article>
+
+                <article class="panel detail-panel">
+                    <span class="eyebrow">
+                        SUSCRIPCIÓN
+                    </span>
+
+                    <dl class="detail-list">
+
+                        <div>
+                            <dt>Vertical</dt>
+                            <dd th:text="${nombreVertical}">
+                            </dd>
+                        </div>
+
+                        <div>
+                            <dt>Plan</dt>
+                            <dd th:text="${nombrePlan}">
+                            </dd>
+                        </div>
+
+                        <div>
+                            <dt>Fecha de activación</dt>
+                            <dd th:text="${
+                                empresa.fechaActivacion != null
+                                ? #temporals.format(
+                                    empresa.fechaActivacion,
+                                    'dd/MM/yyyy'
+                                  )
+                                : 'Pendiente'
+                            }">
+                            </dd>
+                        </div>
+
+                        <div>
+                            <dt>Fecha de vencimiento</dt>
+                            <dd th:text="${
+                                empresa.fechaVencimiento != null
+                                ? #temporals.format(
+                                    empresa.fechaVencimiento,
+                                    'dd/MM/yyyy'
+                                  )
+                                : 'Pendiente'
+                            }">
+                            </dd>
+                        </div>
+
+                    </dl>
+                </article>
+
+            </div>
+
+            <div class="detail-footer">
+                <a th:href="@{/super-admin/empresas}"
+                   class="secondary-button">
+                    ← Regresar a empresas
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

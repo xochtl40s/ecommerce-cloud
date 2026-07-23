@@ -1,5 +1,6 @@
 package com.ecommercecloud.security.auth;
 
+import com.ecommercecloud.security.audit.service.LoginAuditService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,6 +13,16 @@ import java.io.IOException;
 @Component
 public class LoginSuccessHandler
         implements AuthenticationSuccessHandler {
+
+    private final LoginAuditService
+            loginAuditService;
+
+    public LoginSuccessHandler(
+            LoginAuditService loginAuditService
+    ) {
+        this.loginAuditService =
+                loginAuditService;
+    }
 
     @Override
     public void onAuthenticationSuccess(
@@ -30,15 +41,38 @@ public class LoginSuccessHandler
             return;
         }
 
+        loginAuditService.registerSuccess(
+                principal,
+                request
+        );
+
         if (principal.isPasswordChangeRequired()) {
             response.sendRedirect(
                     "/cuenta/cambiar-password"
             );
+
+            return;
+        }
+
+        if (principal.isSuperAdmin()) {
+            response.sendRedirect(
+                    "/super-admin"
+            );
+
+            return;
+        }
+
+        if (principal.isTenantUser()) {
+            response.sendRedirect(
+                    "/workspace/"
+                            + principal.getTenantCode()
+            );
+
             return;
         }
 
         response.sendRedirect(
-                "/workspace/" + principal.getTenantCode()
+                "/acceso-denegado"
         );
     }
 }

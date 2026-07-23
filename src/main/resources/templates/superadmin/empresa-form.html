@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{
+    superadmin/layout :: head('Registrar empresa')
+}">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <aside th:replace="~{
+        superadmin/layout :: sidebar(${paginaActual})
+    }">
+    </aside>
+
+    <main class="main-content">
+
+        <header th:replace="~{
+            superadmin/layout ::
+            topbar(
+                'Registrar empresa',
+                'Alta de un nuevo prospecto comercial'
+            )
+        }">
+        </header>
+
+        <section class="page-content">
+
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">
+                        NUEVA OPORTUNIDAD
+                    </span>
+
+                    <h3>Datos del negocio</h3>
+
+                    <p>
+                        Registra al cliente como prospecto.
+                        Podrás activarlo después de confirmar
+                        su pago.
+                    </p>
+                </div>
+            </div>
+
+            <div th:if="${mensajeError}"
+                 class="alert alert-error"
+                 th:text="${mensajeError}">
+            </div>
+
+            <form class="panel form-panel"
+                  method="post"
+                  th:action="@{/super-admin/empresas}"
+                  th:object="${form}">
+
+                <div class="form-grid">
+
+                    <div class="form-field">
+                        <label for="nombreComercial">
+                            Nombre del negocio *
+                        </label>
+
+                        <input id="nombreComercial"
+                               type="text"
+                               th:field="*{nombreComercial}">
+
+                        <small class="field-error"
+                               th:errors="*{nombreComercial}">
+                        </small>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="razonSocial">
+                            Razón social
+                        </label>
+
+                        <input id="razonSocial"
+                               type="text"
+                               th:field="*{razonSocial}">
+                    </div>
+
+                    <div class="form-field">
+                        <label for="propietario">
+                            Propietario *
+                        </label>
+
+                        <input id="propietario"
+                               type="text"
+                               th:field="*{propietario}">
+
+                        <small class="field-error"
+                               th:errors="*{propietario}">
+                        </small>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="correo">
+                            Correo *
+                        </label>
+
+                        <input id="correo"
+                               type="email"
+                               th:field="*{correo}">
+
+                        <small class="field-error"
+                               th:errors="*{correo}">
+                        </small>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="telefono">
+                            WhatsApp o teléfono
+                        </label>
+
+                        <input id="telefono"
+                               type="text"
+                               th:field="*{telefono}">
+                    </div>
+
+                    <div class="form-field">
+                        <label for="ciudad">
+                            Ciudad
+                        </label>
+
+                        <input id="ciudad"
+                               type="text"
+                               th:field="*{ciudad}">
+                    </div>
+
+                    <div class="form-field">
+                        <label for="verticalId">
+                            Tipo de negocio *
+                        </label>
+
+                        <select id="verticalId"
+                                th:field="*{verticalId}">
+
+                            <option value="">
+                                Selecciona una opción
+                            </option>
+
+                            <option th:each="vertical : ${verticales}"
+                                    th:value="${vertical.id}"
+                                    th:text="${vertical.nombre}">
+                            </option>
+
+                        </select>
+
+                        <small class="field-error"
+                               th:errors="*{verticalId}">
+                        </small>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="planId">
+                            Plan inicial *
+                        </label>
+
+                        <select id="planId"
+                                th:field="*{planId}">
+
+                            <option value="">
+                                Selecciona un plan
+                            </option>
+
+                            <option th:each="plan : ${planes}"
+                                    th:value="${plan.id}"
+                                    th:text="${
+                                        plan.nombre + ' — ' + plan.codigo
+                                    }">
+                            </option>
+
+                        </select>
+
+                        <small class="field-error"
+                               th:errors="*{planId}">
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <a th:href="@{/super-admin/empresas}"
+                       class="secondary-button">
+                        Cancelar
+                    </a>
+
+                    <button type="submit"
+                            class="solid-button">
+                        Registrar prospecto
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{
+    superadmin/layout :: head('Empresas')
+}">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <aside th:replace="~{
+        superadmin/layout :: sidebar(${paginaActual})
+    }">
+    </aside>
+
+    <main class="main-content">
+
+        <header th:replace="~{
+            superadmin/layout ::
+            topbar(
+                'Empresas',
+                'Clientes y prospectos de la plataforma'
+            )
+        }">
+        </header>
+
+        <section class="page-content">
+
+            <div class="page-heading">
+
+                <div>
+                    <span class="eyebrow">
+                        ADMINISTRACIÓN COMERCIAL
+                    </span>
+
+                    <h3>Directorio de empresas</h3>
+
+                    <p>
+                        Consulta prospectos, clientes activos
+                        y cuentas que requieren seguimiento.
+                    </p>
+                </div>
+
+                <a th:href="@{/super-admin/empresas/nueva}"
+                   class="solid-button">
+                    + Registrar empresa
+                </a>
+
+            </div>
+
+            <article class="panel">
+
+                <form class="filter-bar"
+                      method="get"
+                      th:action="@{/super-admin/empresas}">
+
+                    <div class="filter-search">
+                        <label for="buscar">
+                            Buscar
+                        </label>
+
+                        <input id="buscar"
+                               name="buscar"
+                               type="search"
+                               th:value="${buscar}"
+                               placeholder="Empresa, código, correo o propietario">
+                    </div>
+
+                    <div class="filter-select">
+                        <label for="estado">
+                            Estado
+                        </label>
+
+                        <select id="estado"
+                                name="estado">
+
+                            <option value="">
+                                Todos los estados
+                            </option>
+
+                            <option th:each="estado : ${estados}"
+                                    th:value="${estado}"
+                                    th:text="${estado}"
+                                    th:selected="${
+                                        estadoSeleccionado == estado
+                                    }">
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <button type="submit"
+                            class="solid-button">
+                        Filtrar
+                    </button>
+
+                    <a th:href="@{/super-admin/empresas}"
+                       class="secondary-button">
+                        Limpiar
+                    </a>
+
+                </form>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                        <tr>
+                            <th>Empresa</th>
+                            <th>Propietario</th>
+                            <th>Estado</th>
+                            <th>Vencimiento</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="empresa : ${empresas}">
+
+                            <td>
+                                <div class="company-cell">
+
+                                    <div class="company-avatar"
+                                         th:text="${
+                                             #strings.substring(
+                                                 empresa.nombreComercial,
+                                                 0,
+                                                 1
+                                             )
+                                         }">
+                                        E
+                                    </div>
+
+                                    <div>
+                                        <strong th:text="${
+                                            empresa.nombreComercial
+                                        }">
+                                            Empresa
+                                        </strong>
+
+                                        <span th:text="${empresa.codigo}">
+                                            COD-001
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td>
+                                <strong th:text="${
+                                    empresa.propietario
+                                }">
+                                    Propietario
+                                </strong>
+
+                                <small th:text="${empresa.correo}">
+                                    correo@empresa.mx
+                                </small>
+                            </td>
+
+                            <td>
+                                <span class="status-badge"
+                                      th:classappend="${
+                                          ' status-' +
+                                          #strings.toLowerCase(
+                                              empresa.estado.name()
+                                          )
+                                      }"
+                                      th:text="${empresa.estado}">
+                                    PROSPECTO
+                                </span>
+                            </td>
+
+                            <td>
+                                <span th:if="${
+                                    empresa.fechaVencimiento != null
+                                }"
+                                      th:text="${
+                                          #temporals.format(
+                                              empresa.fechaVencimiento,
+                                              'dd/MM/yyyy'
+                                          )
+                                      }">
+                                </span>
+
+                                <span th:if="${
+                                    empresa.fechaVencimiento == null
+                                }">
+                                    Sin activar
+                                </span>
+                            </td>
+
+                            <td class="actions-cell">
+                                <a th:href="@{
+                                       /super-admin/empresas/{id}(
+                                           id=${empresa.id}
+                                       )
+                                   }"
+                                   class="action-button">
+                                    Ver detalle
+                                </a>
+                            </td>
+
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(empresas)}">
+                            <td colspan="5"
+                                class="empty-state">
+                                <strong>
+                                    No encontramos empresas
+                                </strong>
+
+                                <span>
+                                    Cambia los filtros o registra
+                                    un nuevo prospecto.
+                                </span>
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

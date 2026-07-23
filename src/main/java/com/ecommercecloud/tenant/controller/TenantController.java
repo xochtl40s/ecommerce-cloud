@@ -1,5 +1,6 @@
 package com.ecommercecloud.tenant.controller;
 
+import com.ecommercecloud.tenant.dto.TenantActivationResponse;
 import com.ecommercecloud.tenant.dto.TenantCreateRequest;
 import com.ecommercecloud.tenant.dto.TenantResponse;
 import com.ecommercecloud.tenant.entity.EstadoTenant;
@@ -17,7 +18,9 @@ public class TenantController {
 
     private final TenantService tenantService;
 
-    public TenantController(TenantService tenantService) {
+    public TenantController(
+            TenantService tenantService
+    ) {
         this.tenantService = tenantService;
     }
 
@@ -25,16 +28,15 @@ public class TenantController {
     public ResponseEntity<TenantResponse> crear(
             @Valid @RequestBody TenantCreateRequest request
     ) {
-        TenantResponse response =
-                tenantService.crearProspecto(request);
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(response);
+                .body(
+                        tenantService.crearProspecto(request)
+                );
     }
 
     @PostMapping("/{id}/activar")
-    public ResponseEntity<TenantResponse> activar(
+    public ResponseEntity<TenantActivationResponse> activar(
             @PathVariable Long id
     ) {
         return ResponseEntity.ok(
@@ -53,7 +55,8 @@ public class TenantController {
 
     @GetMapping
     public ResponseEntity<List<TenantResponse>> listar(
-            @RequestParam(required = false) EstadoTenant estado
+            @RequestParam(required = false)
+            EstadoTenant estado
     ) {
         if (estado != null) {
             return ResponseEntity.ok(
