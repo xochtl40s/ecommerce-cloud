@@ -1,13 +1,15 @@
 package com.ecommercecloud.config;
 
+import com.ecommercecloud.multitenancy.TenantContextFilter;
+import com.ecommercecloud.security.auth.LoginFailureHandler;
 import com.ecommercecloud.security.auth.LoginSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -20,17 +22,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            LoginSuccessHandler loginSuccessHandler
+            LoginSuccessHandler successHandler,
+            LoginFailureHandler failureHandler,
+            TenantContextFilter tenantContextFilter
     ) throws Exception {
 
         http
-                /*
-                 * Temporalmente desactivado porque los formularios
-                 * actuales del Super Admin todavía no incluyen tokens.
-                 *
-                 * Antes de producción lo habilitaremos.
-                 */
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf
+                        /*
+                         * Los formularios Thymeleaf
+                         * conservan protección CSRF.
+                         *
+                         * La API se deja fuera temporalmente
+                         * hasta implementar JWT/API tokens.
+                         */
+                        .ignoringRequestMatchers(
+                                "/api/**"
+                        )
+                )
 
                 .authorizeHttpRequests(auth -> auth
 
@@ -38,6 +47,8 @@ public class SecurityConfig {
                                 "/",
                                 "/inicio",
                                 "/login",
+                                "/olvide-password",
+                                "/restablecer-password",
                                 "/soluciones/**",
                                 "/api/public/**",
                                 "/css/**",
@@ -48,21 +59,21 @@ public class SecurityConfig {
                                 "/acceso-denegado"
                         ).permitAll()
 
-                        /*
-                         * Temporal durante desarrollo.
-                         * En Sprint 4.3 será ROLE_SUPER_ADMIN.
-                         */
                         .requestMatchers(
                                 "/super-admin/**",
-                                "/api/admin/tenants/**"
-                        ).permitAll()
+                                "/api/admin/**"
+                        ).hasRole("SUPER_ADMIN")
 
                         .requestMatchers(
-                                "/cuenta/**",
+                                "/cuenta/**"
+                        ).authenticated()
+
+                        .requestMatchers(
                                 "/workspace/**"
                         ).authenticated()
 
-                        .anyRequest().authenticated()
+                        .anyRequest()
+                        .authenticated()
                 )
 
                 .formLogin(form -> form
@@ -70,15 +81,18 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .successHandler(loginSuccessHandler)
-                        .failureUrl("/login?error")
+                        .successHandler(successHandler)
+                        .failureHandler(failureHandler)
                         .permitAll()
                 )
 
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl(
+                                "/login?logout"
+                        )
                         .invalidateHttpSession(true)
+                        .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
@@ -87,6 +101,18 @@ public class SecurityConfig {
                         exception.accessDeniedPage(
                                 "/acceso-denegado"
                         )
+                )
+
+                .sessionManagement(session ->
+                        session
+                                .sessionFixation()
+                                .migrateSession()
+                                .maximumSessions(1)
+                )
+
+                .addFilterAfter(
+                        tenantContextFilter,
+                        UsernamePasswordAuthenticationFilter.class
                 );
 
         return http.build();

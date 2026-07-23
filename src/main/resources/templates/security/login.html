@@ -144,6 +144,19 @@
 
             </div>
 
+
+            <div th:if="${param.resetSuccess}"
+                 class="auth-alert auth-alert-success">
+
+                <strong>Contraseña restablecida</strong>
+
+                <span>
+                    Ya puedes iniciar sesión con
+                    tu nueva contraseña.
+                </span>
+
+            </div>
+
             <form method="post"
                   th:action="@{/login}"
                   class="auth-form">
@@ -201,9 +214,10 @@
 
                     </label>
 
-                    <span class="support-link">
-                        ¿Necesitas ayuda?
-                    </span>
+                    <a class="support-link"
+                       th:href="@{/olvide-password}">
+                        ¿Olvidaste tu contraseña?
+                    </a>
 
                 </div>
 
